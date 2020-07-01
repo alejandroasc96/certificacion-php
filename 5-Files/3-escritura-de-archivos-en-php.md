@@ -1,12 +1,14 @@
 **Funciones básicas para la escritura de archivos en PHP**
 
-| | |
-| -------- | -------- |
-| 1\. fwrite | 3. fputcsv |
-| 2. file_put_contents | |
+**Indice de contenido**
 
-### 1\. fwrite
-```
+1. [fwrite](#id1)
+2. [file_put_contents](#id2)
+3. [fputcsv](#id3)
+
+
+## 1. fwrite <a name="id1"></a>
+```php
 int fwrite (resource $handle, string $string, [, int $length ])
 ```
 
@@ -14,7 +16,7 @@ Escribe el contenido de _$string_ en el recurso _$handle_. Si se facilita una lo
 
 Devuelve el **número de bytes** escritos.
 
-```
+```php
 $fp = fopen("miarchivo.txt", "w");
 
 fwrite($fp, "Hola que tal");
@@ -26,7 +28,7 @@ fclose($fp);
 
 En el ejemplo anterior hemos escrito en el archivo de forma que hemos sobreescrito lo anterior (con el **modo w**). Si ahora queremos añadir nuevo contenido al archivo, podemos abrir un recurso con el **modo a de _append_**:
 
-```
+```php
 if ($fp = fopen("miarchivo.txt", "a")){
     fwrite($fp, "Yo muy bien, ¿Y tú?");
 }
@@ -35,8 +37,8 @@ fclose($fp);
 
 La función _fputs()_ es un alias de _fwrite()_.
 
-### 2\. file_put_contents
-```
+## 2. file_put_contents <a name="id2"></a>
+```php
 int file_put_contents (string $filename, mixed $data [, int $flags = 0 [, resource $context ]] )
 ```
 
@@ -50,7 +52,7 @@ Escribe información _$data_ en un archivo _$filename_. Viene a ser equivalente 
 
 La función devuelve el **número de bytes** escritos en el archivo _$filename_.
 
-```
+```php
 // Uso junto con file_get_contents y añadiendo al ya existente:
 $archivo = "miarchivo.txt";
 $actual = file_get_contents($archivo);
@@ -63,8 +65,8 @@ $mascontenido = "¡Todavía más contenido!\n";
 file_put_contents($archivo, $mascontenido, FILE_APPEND | LOCK_EX);
 ```
 
-### 3\. fputcsv
-```
+## 3. fputcsv <a name="id3"></a>
+```php
 int fputcsv (resource_ $handle, array $fields [, string $delimeter = "," [, string $enclosure = '"' [ , string $escape_char = "\" ]]] )
 ```
 
@@ -74,7 +76,7 @@ Se puede especificar, opcionalmente, el delimitador de campos _$delimeter_, un c
 
 Devuelve la **longitud del string escrito** en cado de éxito o **false** en caso de error. 
 
-```
+```php
 $animales = array (
     array ('tortuga', 'Nicole', '5'),
     array ('perro', 'Chukie', '10'),
