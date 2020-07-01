@@ -1,22 +1,26 @@
 **Indice de contenido**
 
-| | |
-| -------- | -------- |
-| 1\. fgets | 7. fgetc |
-| 2\. fread | 8. file_get_contents |
-| 3\. fscanf | 9. readfile |
-| 4\. fgetss | 10. file |
-| 5. fpassthru | 11. parse_ini_file |
-| 6. fgetcsv | 12. Lectura desde una posición exacta |
+1. [fgets](#id1)
+2. [fread](#id2)
+3. [fscanf](#id3)
+4. [fgetss](#id4)
+5. [fpassthru](#id5)
+6. [fgetcsv](#id6)
+7. [fgetc](#id7)
+8. [file_get_contents](#id8)
+9. [readfile](#id9)
+10. [file](#id10)
+11. [parse_ini_file](#id11)
+12. [Lectura desde una posición exacta](#id12)
 
-### 1. fgets
-```
+## 1. fgets <a name="id1"></a>
+```php
 string fgets (resource $handle [, int $length ])
 ```
 
 Obtiene una línea desde el **puntero de un archivo**. La **lectura** termina cuando se llegue a _$length_, se llegue a una nueva línea o se alcance el final del archivo.
 
-```
+```php
 $fp = fopen("miarchivo.txt", "r");
 while (!feof($fp)){
     $linea = fgets($fp);
@@ -25,8 +29,8 @@ while (!feof($fp)){
 fclose($fp);
 ```
 
-### 2. fread
-```
+### 2. fread <a name="id2"></a>
+```php
 string fread (resource $handle, int $length)
 ```
 
@@ -34,27 +38,28 @@ Lectura de un fichero en **modo binario**. Se puede incluir un parámetro opcion
 
 Esta función tiene una función diferente a _fgets()_, ya que lee **archivos binarios** (archivos que no están creados para ser legibles por humanos). Ya que las líneas no son algo muy común en este tipo de archivos, se suele especificar el tamaño _$length_ en bytes a devolver:
 
-```
+```php
 $fp = fopen ("miarchivo.txt", "rb");
 $datos = fread($fp, 4096);
 ```
 
 Es frecuente emplear la función _filesize()_ en lugar de un número concreto para especificar que se quiere devolver el archivo entero:
 
-```
+```php
 $fp = fopen("miarchivo.txt", "rb");
 $datos = fread($fp, filesize("miarchivo.txt"));
 fclose($fp);
 ```
 
-### 3. fscanf
-```
+## 3. fscanf <a name="id3"></a>
+
+```php
 mixed fscanf (resource $handle, string $format [, mixed &$... ])
 ```
 
 Interpreta la entrada de un archivo _$handle_ en función de un formato _$format_. El formato es el mismo que se emplea en la función _sprintf()_. Cada llamada a _fscanf()_ lee una línea del archivo.
 
-```
+```php
 $fp = fopen("miarchivo.txt", "r");
 while ($animalinfo = fscanf($fp, "%s\t%s")){
     list($animal, $nombre) = $animalinfo;
@@ -63,14 +68,15 @@ while ($animalinfo = fscanf($fp, "%s\t%s")){
 fclose($fp);
 ```
 
-### 4. fgetss
-```
+## 4. fgetss <a name="id4"></a>
+
+```php
 string fgetss (resource $handle [, int $length [, string $allowable_tags ]] )
 ```
 
 Es igual que _fgets()_ pero elimina cualquier **null**, **etiquetas HTML y PHP** del texto. Se puede especificar un parámetro opcional _$allowable_tags_ para especificar etiquetas que se permiten.
 
-```
+```php
 $cadena = <<<HEY
 <html>
 <h1>Perfil de <?php echo "Nombre de usuario";?></h1>
@@ -90,8 +96,9 @@ fclose($gestor);
 // Devuelve: Perfil de
 ```
 
-### 5. fpassthru
-```
+## 5. fpassthru <a name="id5"></a>
+
+```php
 int fpassthru (resource $handle)
 ```
 
@@ -105,7 +112,7 @@ Devuelve el **número de caracteres** leídos desde _$handle_ y pasados hacia la
 
 Esta función no hace falta guardarla en una variable ya que imprime directamente el resultado:
 
-```
+```php
 $fp = fopen("miarchivo.txt","r");
 // Lee la primera línea, que es Esta es la línea 1
 fgets($fp);
@@ -122,19 +129,20 @@ fclose($fp);
 
 Otro ejemplo **devolviendo el index de una página web**:
 
-```
+```php
 $fp = fopen("http://www.ejemplo.com", "r");
 fpassthru($fp);
 ```
 
-### 6. fgetcsv
-```
+## 6. fgetcsv <a name="id6"></a>
+
+```php
 array fgetcsv (resource $handle [, int $length = 0 [, string $delimeter = "," [, string $enclosure = '"' [, string $escape = "\" ]]]] )
 ```
 
 Busca **campos en formato csv** en el recurso _$handle_ y devuelve un _array_ conteniéndolos. Se pueden especificar, opcionalmente, la longitud de línea a devolver _$length_, el delimitador de campo _$delimeter_, el carácter circundante de cada campo _$enclosure_, y el carácter de escape _$escape_.
 
-```
+```php
 $fila = 1;
 if(($fp = fopen("archivo.csv", "r")) !== FALSE) {
     while (($datos = fgetcsv($fp)) !== FALSE) {
@@ -150,14 +158,14 @@ if(($fp = fopen("archivo.csv", "r")) !== FALSE) {
 }
 ```
 
-### 7. fgetc
-```
+## 7. fgetc <a name="id7"></a>
+```php
 stirng fgetc (resource $handle)
 ```
 
 Obtiene **sólo un carácter** desde un puntero de un archivo. Devuelve el _**string**_ con el único carácter. Devuelve false si es **EOF**.
 
-```
+```php
 if($fp = fopen('miarchivo.txt', 'r')) {
     while (false !== ($caracter = fgetc($fp))) {
         echo "$caracter\n";
@@ -165,8 +173,8 @@ if($fp = fopen('miarchivo.txt', 'r')) {
 }
 ```
 
-### 8\. file_get_contents
-```
+## 8\. file_get_contents <a name="id8"></a>
+```php
 string file_get_contents (string $filename [, bool $use_include_path = false [, resource $context [, int $offset = -1 [, int $maxlen ]]]] )
 ```
 
@@ -174,7 +182,7 @@ Devuelve un archivo entero a una cadena, se puede especificar el comienzo desde 
 
 Si falla devuelve false, pero genera un E_WARNING si _$filename_ no se pudo encontrar, _$maxlen_ es menor que cero o si falla la búsqueda del _$offset_ especificado en el flujo.
 
-```
+```php
 // Devuelve el contenido de una web
 $web = file_get_contents("http://www.ejemplo.com");
 echo $web;
@@ -191,14 +199,15 @@ $articulo = file_get_contents('archivo.txt', NULL, NULL, 100, 20);
 echo $articulo;
 ```
 
-### 9\. readfile
-```
+## 9\. readfile <a name="id9"></a>
+
+```php
 int readfile (string $filename [, bool $use_include_path = false [, resource $context ]])
 ```
 
 Es una versión más simplificada de _file_get_contents()_. Lee un archivo y lo escribe en el **búfer de salida**. La función devuelve el número de **bytes leídos del archivo**.
 
-```
+```php
 // Devuelve el contenido de un archivo
 readfile("miarchivo.txt");
 // Devuelve el contenido y el número de bytes, 79
@@ -206,8 +215,9 @@ $contenido = readfile("miarchivo.txt");
 echo $contenido;
 ```
 
-### 10\. file
-```
+## 10\. file <a name="id10"></a>
+
+```php
 array file (string $filename [, int $flags = 0 [, resource $context ]] )
 ```
 
@@ -219,7 +229,7 @@ Transfiere **un archivo a un array**. Función similar a _file_get_contents()_ p
 
 **FILE_SKIP_EMPTY_LINES**. Salta las líneas vacías.
 
-```
+```php
 // Devuelve el contenido en un array:
 $array = file("miarchivo.txt", FILE_IGNORE_NEW_LINES);
 var_dump($array);
@@ -232,8 +242,8 @@ var_dump($array);
 */
 ```
 
-### 11\. parse_ini_file
-```
+## 11\. parse_ini_file <a name="id11"></a>
+```php
 array parse_ini_file ( string $filename [, bool $process_sections = false [, int $scanner_mode = INI_SCANNER_NORMAL ]] )
 ```
 
@@ -243,7 +253,7 @@ Hay dos _$scanner_mode_ : INI_SCANNER NORMAL (por defecto), y INI_SCANNER_RAW. C
 
 La función no guarda ninguna relación con el archivo _php.ini_, se suele usar para **leer los archivos de configuración de aplicaciones propias**. 
 
-```
+```php
 // Tenemos en el archivo miarchivo.txt:
 /*
 [nombres_animales]
@@ -271,22 +281,24 @@ array (size=1)
 */
 ```
 
-### 12. Lectura desde una posición exacta
+## 12. Lectura desde una posición exacta <a name="id12"></a>
+```php
+fseek ( resource $handle , int $offset [, int $whence = SEEK_SET ] ) : int
+```
 
 Podemos llegar exactamente a un punto del archivo con _**fseek()**_. Una vez situados en una posición, podemos emplear cualquiera de las funciones anteriores como _fgets()_ o _fscanf()_ para leer los datos:
 
-```
-$fp = fopen("miarchivo.txt", "r");
-fseek($fp, 28);
+```php
+<?php
 
-while(!feof($fp)){
-    $linea = fgets($fp);
-    echo $linea;
-}
-fclose($fp);
-/*
-la línea 2
-Esta es la línea 3
-Esta es la línea 4
-*/
+$fp = fopen('fichero.txt', 'r');
+
+// leer alguna información
+$data = fgets($fp, 4096);
+
+// volver al principio del fichero
+// igual que rewind($fp);
+fseek($fp, 0);
+
+?>
 ```
